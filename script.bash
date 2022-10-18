@@ -1,5 +1,6 @@
 #!/bin/bash
 export LANG=en_US.UTF-8
+
 dir=$1
 dirs_count=0
 files_count=0
