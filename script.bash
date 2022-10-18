@@ -20,10 +20,10 @@ ne_tree() {
             local begin
             local middle
             if [[ i -eq $((amount - 1)) ]]; then
-                begin="└── "
+                begin="└─ "
                 middle="    "
             else
-                begin="├── "
+                begin="├─ "
                 middle="│   "
             fi
 
