@@ -1,7 +1,14 @@
 #!/bin/bash
 export LANG=en_US.UTF-8
 
-dir=$1
+if [[ $1 != "" ]]  # проверка на пустой ввод
+then
+    echo $1
+    dir=$1
+else 
+    echo "."
+    dir=$(pwd)  # отобразить файлы текущей директории
+fi
 dirs_count=0
 files_count=0
 
@@ -36,4 +43,17 @@ ne_tree() {
 
 ne_tree $dir
 
-printf "\n%s %s, %s %s\n" "$dirs_count" "directories" "$files_count" "files"
+if [[ $dirs_count -eq 1 ]]; then
+    dir_phrase="directory,"
+else
+    dir_phrase="directories,"
+fi
+
+if [[ $files_count -eq 1 ]]; then
+    files_phrase="file"
+else
+    files_phrase="files"
+fi
+
+echo
+echo $dirs_count $dir_phrase $files_count $files_phrase
