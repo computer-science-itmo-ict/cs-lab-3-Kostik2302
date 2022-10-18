@@ -1,7 +1,6 @@
 #!/bin/bash
 export LANG=en_US.UTF-8
-
-dir=$(pwd)
+dir=$1
 dirs_count=0
 files_count=0
 
@@ -36,4 +35,4 @@ ne_tree() {
 
 ne_tree $dir
 
-printf "\n%s %s, %s %s" "$dirs_count" "directories" "$files_count" "files"
+printf "\n%s %s, %s %s\n" "$dirs_count" "directories" "$files_count" "files"
