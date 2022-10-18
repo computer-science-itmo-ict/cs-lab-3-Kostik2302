@@ -24,7 +24,7 @@ ne_tree() {
                 middle="    "
             else
                 begin="├── "
-                middle="│    "
+                middle="│   "
             fi
 
             ne_tree "${all_subfiles[i]}" "$path/" "$prefix$child_rung" "$begin" "$middle"
