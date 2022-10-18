@@ -1,40 +1,39 @@
-#bin!/bash
+#!/bin/bash
 export LANG=en_US.UTF-8
-#find ./dir -print | sed 's![^/]*/!|   !g' 
+
+dir=$(pwd)
 dirs_count=0
 files_count=0
+
 ne_tree() {
-    local path=$1
-    local main_path=$2
-    local prefix=$3
-    local adapter=$4
-    local child_rung=$5
-    printf "%s%s%s\n" "$prefix" "$adapter" "${path##"$main_path"}"
-    if  [ -d "$path" ]; then
-        ((dirs_count++))
+    local root=$1
+    local branch=$2
+    local subdirs=($root/*)
+    local subdirs_count=${#subdirs[@]}
 
-        local all_subfiles=("$path"/*)
-        local amount=${#all_subfiles[@]}
-        local i=0
-        for (( ; i < amount; i++)); do
-            local begin
-            local middle
-            if [[ i -eq $((amount - 1)) ]]; then
-                begin="└── "
-                middle="    "
-            else
-                begin="├── "
-                middle="│   "
-            fi
+    for i in ${!subdirs[@]}; do
+        local parent
+        local child
+        local name=${subdirs[i]##*/}
 
-            ne_tree "${all_subfiles[i]}" "$path/" "$prefix$child_rung" "$begin" "$middle"
-        done
-    else
-        ((files_count++))
-    fi
+        if [[ $i -eq $(( $subdirs_count - 1 )) ]]; then
+            parent=$'\u0020\u0020\u0020\u0020'
+            child=$'\u2514\u2500\u2500\u0020'
+        else
+            parent=$'\u2502\u00A0\u00A0\u0020'
+            child=$'\u251c\u2500\u2500\u0020'
+        fi
+        echo "$branch$child$name"
+
+        if [[ -d $root/$name ]]; then 
+            ((dirs_count++))
+            ne_tree $root/$name "$branch$parent"
+        else
+            ((files_count++))
+        fi
+    done
 }
 
-root=${1%%"/"}
-ne_tree "$root"
+ne_tree $dir
 
-printf "\n%s %s, %s %s\n" "$dirs_count" "directories" "$files_count" "files"
+printf "\n%s %s, %s %s" "$dirs_count" "directories" "$files_count" "files"
